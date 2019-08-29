@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+import datetime
 
 
 class Classroom(models.Model):
@@ -15,6 +16,9 @@ class Classroom(models.Model):
 class Student(models.Model):
 	name = models.CharField(max_length=120)
 	date_of_birth = models.DateField()
-	gender = models.CharField(max_length=1) # a CharField with choices
-	exam_grade= models.DecimalField (max_digits=3, decimal_places=2)
+	FEMALE="Female"
+	MALE="Males"
+	GENDERS=((FEMALE,"Female"),(MALE,"Male"))
+	gender = models.CharField(max_length=9,choices=GENDERS) # a CharField with choices
+	exam_grade= models.IntegerField()
 	classroom= models.ForeignKey(Classroom,on_delete=models.CASCADE)#Foreignkey to the Classroom model

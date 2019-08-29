@@ -94,7 +94,7 @@ def classroom_create(request):
 
 def classroom_update(request, classroom_id):
 	classroom = Classroom.objects.get(id=classroom_id)
-	if not (request.user.is_authenticated or classroom.teacher==request.user.username):
+	if not (request.user.is_authenticated and classroom.teacher==request.user):
 		return redirect('warn')
 	else:
 		form = ClassroomForm(instance=classroom)
@@ -114,7 +114,7 @@ def classroom_update(request, classroom_id):
 
 def classroom_delete(request, classroom_id):
 	classroom = Classroom.objects.get(id=classroom_id)
-	if not (request.user.is_authenticated or request.user==classroom.teacher):
+	if not (request.user.is_authenticated and request.user==classroom.teacher):
 		return redirect('warn')
 	Classroom.objects.get(id=classroom_id).delete()
 	messages.success(request, "Successfully Deleted!")
@@ -124,7 +124,7 @@ def classroom_delete(request, classroom_id):
 #-----------------------------Student-------------------------------------
 def student_create(request,classroom_id):
 	classroom=Classroom.objects.get(id=classroom_id)
-	if not (request.user.is_authenticated or request.user==classroom.teacher):
+	if not (request.user.is_authenticated and classroom.teacher==request.user):
 		return redirect('warn')
 	
 	form = StudentForm()
@@ -147,7 +147,7 @@ def student_create(request,classroom_id):
 def student_update(request, classroom_id,student_id):
 	
 	classroom=Classroom.objects.get(id=classroom_id)
-	if not (request.user.is_authenticated or request.user==classroom.teacher):
+	if not (request.user.is_authenticated and classroom.teacher==request.user):
 		return redirect('warn')
 	student = Student.objects.get(id=student_id)
 	form = StudentForm(instance=student)
@@ -168,7 +168,7 @@ def student_update(request, classroom_id,student_id):
 
 def student_delete(request, classroom_id,student_id):
 	classroom=Classroom.objects.get(id=classroom_id)
-	if not (request.user.is_authenticated or request.user==classroom.teacher):
+	if not (request.user.is_authenticated and classroom.teacher==request.user):
 		return redirect('warn')
 	stu=Student.objects.get(id=student_id)
 	stu.delete()

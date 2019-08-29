@@ -3,17 +3,20 @@
 {% block content %}
 <div class="card text-center">
   <div class="card-header" style="background-color: #e3f2fd; color: 000034;">
-    Classroom Details 
+    Classroom Details
+    {% if request.user == classroom.teacher %}
     <span>
       <a href="{% url 'classroom-update' classroom.id %}" class="btn" style="background-color: #000034; color: white;">Update</a>
       <a href="{% url 'classroom-delete' classroom.id %}" class="btn" style="background-color: #FFA500; color: #000034;">Delete</a>
     </span>
+    {%endif%}
   </div>
   <div class="card-body">
     <h5 class="card-title" style="color: 000034;">{{classroom.name}} {{classroom.subject}}</h5>
     <p class="card-text" style="color: 000034;">{{classroom.year}}</p>
+    {% if request.user == classroom.teacher %}
     <a href="{% url 'student-create' classroom.id %}" class="btn" style="background-color: #FFA500; color: #000034;">Add Student</a>
-
+    {%endif%}
 
   </div>
 </div>
@@ -29,8 +32,13 @@
   {% for stu in student %}
    <div class="card-body">
     <h5 class="card-title" style="color: 000034;">{{stu.name}} <span>
+      
+      {% if request.user == classroom.teacher %}
       <a href="{% url 'student-update' classroom.id stu.id   %}" class="btn" style="background-color: #000034; margin-left: 100px;color: white;">Update</a>
       <a href="{% url 'student-delete'  classroom.id  stu.id %}" class="btn" style="background-color: #FFA500; color: #000034;">Delete</a>
+      {% endif %}
+        
+
 
     </span>
     </h5>

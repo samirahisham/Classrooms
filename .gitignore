@@ -18,3 +18,4 @@ build/
 tests/report/
 db.sqlite3
 class_env/
+README.md
